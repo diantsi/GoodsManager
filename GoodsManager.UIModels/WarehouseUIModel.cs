@@ -1,6 +1,6 @@
 ﻿namespace GoodsManager.UIModels
 {
-    public class Class1
+    public class WarehouseUIModel
     {
 
     }
