@@ -9,7 +9,7 @@ namespace GoodsManager.DBModel
 {
 
 
-    public class GoodDB
+    public class GoodDBModel
     {
         public Guid Id { get; }
         public Guid WarehouseId { get; }
@@ -19,9 +19,9 @@ namespace GoodsManager.DBModel
         public Category ItemCategory { get; set; }
         public string Description { get; set; }
 
-        private GoodDB() { }
+        private GoodDBModel() { }
 
-        public GoodDB(Guid warehouseId, string title, int quantity, decimal price, Category category, string description = "")
+        public GoodDBModel(Guid warehouseId, string title, int quantity, decimal price, Category category, string description = "")
         {
             Id = Guid.NewGuid();
             WarehouseId = warehouseId;
