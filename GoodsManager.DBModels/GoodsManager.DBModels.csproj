@@ -4,10 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>GoodsManager.DBModels</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GoodsManager.Common\GoodsManager.Common.csproj" />
+    <ProjectReference Include="..\GoodsManager.ConsoleApp\GoodsManager.ConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>
