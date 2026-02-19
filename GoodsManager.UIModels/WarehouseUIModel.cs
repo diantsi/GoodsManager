@@ -1,5 +1,6 @@
 ﻿using GoodsManager.Common.Enums;
 using GoodsManager.DBModel;
+using GoodsManager.Services;
 using static GoodsManager.UIModels.WarehouseUIModel;
 
 namespace GoodsManager.UIModels
@@ -71,6 +72,16 @@ namespace GoodsManager.UIModels
                 _location = dbModel.Location;
             }
 
+        public void LoadGoods(StorageService storage)
+        {
+            if (Id == null || _products != null) return;
+
+            _products = new List<GoodUIModel>();
+            foreach (var productDB in storage.GetProducts(Id.Value))
+            {
+                _products.Add(new GoodUIModel(productDB));
+            }
+        }
 
         public void SaveChangesToDBModel()
         {
