@@ -111,7 +111,7 @@ namespace GoodsManager.UIModels
 
         public override string ToString()
         {
-            return $"Склад: {Name}, Місто знаходження: {Location}, Повна сума усіх товарів: {TotalPriceDesc}";
+            return $"Склад: {Name}, Місто знаходження: {Location}";
         }
 
     }

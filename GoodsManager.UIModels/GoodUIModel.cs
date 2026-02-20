@@ -114,7 +114,20 @@ namespace GoodsManager.UIModels
 
         public override string ToString()
         {
-            return $"Товар: {Title} ({Category}), Ціна: {UnitPrice} грн, К-сть: {Quantity}, Загальна вартість: {TotalValue} грн";
+            return $"Товар: {Title} ({Category}), Ціна: {UnitPrice} грн, К-сть: {Quantity}";
+        }
+
+        public string FullInfo
+        {
+            get
+            {
+                return $"--- Повна інформація про {Title} ---\n" +
+                       $"Опис: {Description}\n" +
+                       $"Категорія: {Category}\n" +
+                       $"Кількість на складі: {Quantity}\n" +
+                       $"Ціна: {UnitPrice} UAH\n" +
+                       $"Повна ціна: {TotalValue} UAH\n";
+            }
         }
     }
 }
