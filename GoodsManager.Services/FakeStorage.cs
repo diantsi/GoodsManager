@@ -3,11 +3,12 @@ using GoodsManager.DBModel;
 
 namespace GoodsManager.Services
 {
- 
-        internal static class FakeStorage
+
+    // A fake database with hardcoded data.
+    internal static class FakeStorage
         {
             private static readonly List<WarehouseDBModel> _warehouses;
-            private static readonly List<GoodDBModel> _products;
+            private static readonly List<GoodDBModel> _goods;
 
             internal static IEnumerable<WarehouseDBModel> Warehouses
             {
@@ -17,25 +18,26 @@ namespace GoodsManager.Services
                 }
             }
 
-            internal static IEnumerable<GoodDBModel> Products
+            internal static IEnumerable<GoodDBModel> Goods
             {
                 get
                 {
-                    return _products.ToList();
+                    return _goods.ToList();
                 }
             }
 
             static FakeStorage()
-            {
-                var centralWarehouse = new WarehouseDBModel("Центральний", City.Kyiv);
-                var westernWarehouse = new WarehouseDBModel("Западенський", City.Lviv);
-                var volynskyWarehouse = new WarehouseDBModel("Склад волинок", City.Lutsk);
-                var reserveWarehouse = new WarehouseDBModel("Південний", City.Odesa);
+        {
+            var centralWarehouse = new WarehouseDBModel("Центральний", City.Kyiv);
+            var leftBankWarehouse = new WarehouseDBModel("Лівобережний", City.Kyiv);
+            var westernWarehouse = new WarehouseDBModel("Западенський", City.Lviv);
+            var volynskyWarehouse = new WarehouseDBModel("Склад волинок", City.Lutsk);
+            var reserveWarehouse = new WarehouseDBModel("Південний", City.Odesa);
 
 
-                _warehouses = new List<WarehouseDBModel> { centralWarehouse, westernWarehouse, reserveWarehouse };
+                _warehouses = new List<WarehouseDBModel> { centralWarehouse, westernWarehouse, leftBankWarehouse, volynskyWarehouse, reserveWarehouse };
 
-            _products = new List<GoodDBModel>
+            _goods = new List<GoodDBModel>
             {
                 new GoodDBModel(centralWarehouse.Id, "Ноутбук Apple MacBook Pro", 15, 75000, Category.Electronics, "16-inch, M3 Max"),
                 new GoodDBModel(centralWarehouse.Id, "Смартфон Samsung Galaxy S24", 40, 40000, Category.Electronics, "256GB, Black"),

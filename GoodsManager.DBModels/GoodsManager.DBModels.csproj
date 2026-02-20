@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GoodsManager.Common\GoodsManager.Common.csproj" />
-    <ProjectReference Include="..\GoodsManager.ConsoleApp\GoodsManager.ConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>

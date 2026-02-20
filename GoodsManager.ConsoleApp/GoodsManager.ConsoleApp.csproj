@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GoodsManager.Services\GoodsManager.Services.csproj" />
+    <ProjectReference Include="..\GoodsManager.UIModels\GoodsManager.UIModels.csproj" />
+  </ItemGroup>
+
 </Project>

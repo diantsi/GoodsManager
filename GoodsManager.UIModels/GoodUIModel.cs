@@ -92,6 +92,10 @@ namespace GoodsManager.UIModels
             _totalValue = _quantity * _unitPrice;
         }
 
+
+        /// <summary>
+        /// Save changes from the UI model back to the DB model.
+        /// </summary>
         public void SaveChangesToDBModel()
         {
             if (_dbModel != null)

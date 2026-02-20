@@ -11,9 +11,10 @@ namespace GoodsManager.UIModels
             private WarehouseDBModel _dbModel;
             private string _name;
             private City _location;
-            private List<GoodUIModel> _products;
+            private List<GoodUIModel> _goods;
+        private IStorageService _storage;
 
-            public Guid? Id
+        public Guid? Id
         {
            get => _dbModel?.Id;
         }
@@ -30,59 +31,71 @@ namespace GoodsManager.UIModels
                 set => _location = value;
             }
 
-
+        /// <summary>
+        /// Calculates the total price of all loaded products.
+        /// Returns -1 if products haven't been loaded yet.
+        /// </summary>
         public decimal TotalPriceWarehouse
         {
             get
             {
-                if (_products == null) return -1;
+                if (_goods == null) return -1;
 
                 decimal total = 0;
-                foreach (var product in _products)
+                foreach (var good in _goods)
                 {
-                    total += product.TotalValue; 
+                    total += good.TotalValue; 
                 }
                 return total;
             }
         }
 
+        /// <summary>
+        /// Provides a description of the total price to show for users.
+        /// </summary>
         public string TotalPriceDesc
         {
             get
             {
-                if (TotalPriceWarehouse == -1) return "Не завантажено продуктів";
+                if (TotalPriceWarehouse == -1) return "Не завантажено товарів";
                 return $"{TotalPriceWarehouse} грн";
             }
         }
 
-        public IReadOnlyList<GoodUIModel> Products
+        public IReadOnlyList<GoodUIModel> Goods
         {
-            get => _products;
+            get => _goods;
         }
-        public WarehouseUIModel()
+        public WarehouseUIModel(IStorageService storage)
         {
-            _products = new List<GoodUIModel>();
+            _storage = storage;
+            _goods = new List<GoodUIModel>();
         }
 
      
-        public WarehouseUIModel( WarehouseDBModel dbModel)
+        public WarehouseUIModel(IStorageService storage, WarehouseDBModel dbModel)
             {
-                _dbModel = dbModel;
+            _storage = storage;
+            _dbModel = dbModel;
                 _name = dbModel.Name;
                 _location = dbModel.Location;
             }
 
-        public void LoadGoods(StorageService storage)
+   
+        public void LoadGoods()
         {
-            if (Id == null || _products != null) return;
+            if (Id == null || _goods != null) return;
 
-            _products = new List<GoodUIModel>();
-            foreach (var productDB in storage.GetProducts(Id.Value))
+            _goods = new List<GoodUIModel>();
+            foreach (var productDB in _storage.GetGoods(Id.Value))
             {
-                _products.Add(new GoodUIModel(productDB));
+                _goods.Add(new GoodUIModel(productDB));
             }
         }
 
+        /// <summary>
+        /// Save changes from the UI model back to the DB model.
+        /// </summary>
         public void SaveChangesToDBModel()
         {
             if (_dbModel != null)
@@ -94,6 +107,11 @@ namespace GoodsManager.UIModels
             {
                 _dbModel = new WarehouseDBModel(_name, _location);
             }
+        }
+
+        public override string ToString()
+        {
+            return $"Склад: {Name}, Місто знаходження: {Location}, Повна сума усіх товарів: {TotalPriceDesc}";
         }
 
     }
