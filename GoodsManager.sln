@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.DBModels", "GoodsManager.DBModels\GoodsManager.DBModels.csproj", "{1CBAFA7E-10DB-4BDF-907E-4F78D085F6C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager.DBModels", "GoodsManager.DBModels\GoodsManager.DBModels.csproj", "{1CBAFA7E-10DB-4BDF-907E-4F78D085F6C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.UIModels", "GoodsManager.UIModels\GoodsManager.UIModels.csproj", "{D2DE976C-A6A3-44DF-BBE2-F923C0137A33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager.UIModels", "GoodsManager.UIModels\GoodsManager.UIModels.csproj", "{D2DE976C-A6A3-44DF-BBE2-F923C0137A33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.Services", "GoodsManager.Services\GoodsManager.Services.csproj", "{C83BB123-00B7-4E83-A2A3-3042705AC21A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager.Services", "GoodsManager.Services\GoodsManager.Services.csproj", "{C83BB123-00B7-4E83-A2A3-3042705AC21A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.ConsoleApp", "GoodsManager.ConsoleApp\GoodsManager.ConsoleApp.csproj", "{CCF6C15A-80E1-48BB-9E21-FB09C44D28B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager.ConsoleApp", "GoodsManager.ConsoleApp\GoodsManager.ConsoleApp.csproj", "{CCF6C15A-80E1-48BB-9E21-FB09C44D28B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.Common", "GoodsManager.Common\GoodsManager.Common.csproj", "{6F00C21E-FCD8-4244-9B90-FCD7CA9875D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager.Common", "GoodsManager.Common\GoodsManager.Common.csproj", "{6F00C21E-FCD8-4244-9B90-FCD7CA9875D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager", "GoodsManager\GoodsManager.csproj", "{8B076B66-F0A6-4BB3-B971-7924FCBB8128}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,12 @@ Global
 		{6F00C21E-FCD8-4244-9B90-FCD7CA9875D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F00C21E-FCD8-4244-9B90-FCD7CA9875D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F00C21E-FCD8-4244-9B90-FCD7CA9875D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B076B66-F0A6-4BB3-B971-7924FCBB8128}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B076B66-F0A6-4BB3-B971-7924FCBB8128}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B076B66-F0A6-4BB3-B971-7924FCBB8128}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8B076B66-F0A6-4BB3-B971-7924FCBB8128}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B076B66-F0A6-4BB3-B971-7924FCBB8128}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B076B66-F0A6-4BB3-B971-7924FCBB8128}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
