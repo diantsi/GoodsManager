@@ -61,6 +61,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\GoodsManager.Common\GoodsManager.Common.csproj" />
+	  <ProjectReference Include="..\GoodsManager.UIModels\GoodsManager.UIModels.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Pages\GoodCreatePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
