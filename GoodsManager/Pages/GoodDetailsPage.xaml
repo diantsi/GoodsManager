@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:GoodsManager.UIModels;assembly=GoodsManager.UIModels"
+             x:Class="GoodsManager.Pages.GoodDetailsPage"
+             x:DataType="models:GoodUIModel"
+             Title="Деталі Товару">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Назва товару:" FontAttributes="Bold" />
+            <Label Text="{Binding Title}" Margin="10,0" FontSize="18" />
+
+            <Label Text="Категорія:" FontAttributes="Bold" />
+            <Label Text="{Binding Category, Converter={StaticResource EnumToDisplayName}}" Margin="10,0" />
+
+            <Label Text="Опис:" FontAttributes="Bold" />
+            <Label Text="{Binding Description}" Margin="10,0" />
+
+            <Label Text="Кількість:" FontAttributes="Bold" />
+            <Label Text="{Binding Quantity}" Margin="10,0" />
+
+            <Label Text="Ціна за одиницю:" FontAttributes="Bold" />
+            <Label Text="{Binding UnitPrice, StringFormat='{0} грн'}" Margin="10,0" />
+
+       
+            <Label Text="Разом за весь товар:" FontAttributes="Bold" VerticalOptions="Center" />
+            <Label Text="{Binding TotalValue, StringFormat='{0} грн'}" Margin="10,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

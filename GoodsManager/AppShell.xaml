@@ -10,8 +10,8 @@
     Title="GoodsManager">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate pages:GoodCreatePage}"
-        Route="GoodCreatePage" />
+        Title="Warehouses"
+        ContentTemplate="{DataTemplate pages:WarehousesPage}"
+        Route="WarehousesPage" />
 
 </Shell>

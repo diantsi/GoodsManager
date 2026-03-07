@@ -12,7 +12,7 @@ namespace GoodsManager.UIModels
             private string _name;
             private City _location;
             private List<GoodUIModel> _goods;
-        private IStorageService _storage;
+            private readonly IStorageService _storage;
 
         public Guid? Id
         {

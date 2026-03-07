@@ -66,7 +66,31 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\GoodDetailsPage.xaml.cs">
+	    <DependentUpon>GoodDetailsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\WarehouseDetailsPage.xaml.cs">
+	    <DependentUpon>WarehouseDetailsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\WarehousesPage.xaml.cs">
+	    <DependentUpon>WarehousesPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <MauiXaml Update="Pages\GoodCreatePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\GoodDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\WarehouseDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\WarehousesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Tools\Converters.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
