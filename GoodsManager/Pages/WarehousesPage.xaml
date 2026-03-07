@@ -17,14 +17,9 @@
                     Padding="10"
                     Margin="0,10">
                     <VerticalStackLayout>
-                        <Label Style="{StaticResource SubHeadline}">
-                            <Label.Text>
-                                <MultiBinding StringFormat="{}{0} ({1})">
-                                    <Binding Path="Name" />
-                                    <Binding Path="TotalPriceDesc" />
-                                </MultiBinding>
-                            </Label.Text>
-                        </Label>
+                        <Label 
+                            Text="{Binding Name}"
+                            Style="{StaticResource SubHeadline}" />
 
                         <Label
                             Text="{Binding Location, Converter={StaticResource EnumToDisplayName}}"

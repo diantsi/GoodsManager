@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager.ConsoleApp", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager.Common", "GoodsManager.Common\GoodsManager.Common.csproj", "{6F00C21E-FCD8-4244-9B90-FCD7CA9875D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager", "GoodsManager\GoodsManager.csproj", "{8B076B66-F0A6-4BB3-B971-7924FCBB8128}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager", "GoodsManager\GoodsManager.csproj", "{8B076B66-F0A6-4BB3-B971-7924FCBB8128}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
