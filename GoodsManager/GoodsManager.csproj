@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<WindowsSdkPackageVersion>10.0.19041.56</WindowsSdkPackageVersion>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -65,7 +66,6 @@
 	  <ProjectReference Include="..\GoodsManager.Common\GoodsManager.Common.csproj" />
 	  <ProjectReference Include="..\GoodsManager.Repositories\GoodsManager.Repositories.csproj" />
 	  <ProjectReference Include="..\GoodsManager.Services\GoodsManager.Services.csproj" />
-	  <ProjectReference Include="..\GoodsManager.UIModels\GoodsManager.UIModels.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

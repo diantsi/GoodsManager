@@ -1,46 +1,71 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:GoodsManager.UIModels;assembly=GoodsManager.UIModels"
+             xmlns:models="clr-namespace:GoodsManager.DTOModels.Goods;assembly=GoodsManager.DTOModels"
+             xmlns:vm="clr-namespace:GoodsManager.ViewModels"
              x:Class="GoodsManager.Pages.WarehouseDetailsPage"
-             x:DataType="models:WarehouseUIModel"
+             x:DataType="vm:WarehouseDetailsViewModel"
              Title="Деталі Складу">
-    <Grid RowDefinitions="Auto, Auto,  *">
-        <Border Stroke="#2196F3" Padding="15" Margin="10">
-            <VerticalStackLayout Spacing="5">
-                <Label Text="{Binding Name}" FontSize="24" FontAttributes="Bold" />
 
-                <HorizontalStackLayout Spacing="5">
-                    <Label Text="Загальна вартість на складі:" FontAttributes="Bold" />
-                    <Label Text="{Binding TotalPriceDesc}" FontAttributes="Bold" TextColor="#2196F3" />
-                </HorizontalStackLayout>
+    <Grid RowDefinitions="Auto, Auto, *">
+
+        <Border Grid.Row="0"
+                Padding="15"
+                Margin="10">
+            <VerticalStackLayout Spacing="5">
+                <Label Text="{Binding CurrentWarehouse.Name}" 
+                       FontSize="24" 
+                       FontAttributes="Bold" />
 
                 <HorizontalStackLayout Spacing="5">
                     <Label Text="Місто:" FontAttributes="Bold" />
-                    <Label Text="{Binding Location, Converter={StaticResource EnumToDisplayName}}" />
+                    <Label Text="{Binding CurrentWarehouse.Location}" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="5">
+                    <Label Text="Загальна вартість товарів:" FontAttributes="Bold"/>
+                    <Label Text="{Binding CurrentWarehouse.TotalValue, StringFormat='{0} грн'}" 
+                           TextColor="#2196F3" 
+                           FontAttributes="Bold"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
         </Border>
 
         <Label Grid.Row="1" 
-           Text="Товари на складі:" 
-           FontSize="20" 
-           FontAttributes="Bold" 
-           Margin="10" 
-           TextColor="Magenta" />
-        
+               Text="Товари на складі:" 
+               FontSize="20" 
+               FontAttributes="Bold" 
+               Margin="10" 
+               TextColor="Magenta" />
+
         <CollectionView Grid.Row="2"
                         ItemsSource="{Binding Goods}"
                         Margin="10"
-                        SelectionMode="Single"
-                        SelectionChanged="GoodSelected">
+                        SelectionMode="None">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:GoodUIModel">
-                    <Border Stroke="Magenta" Padding="10" Margin="0,5">
+                <DataTemplate x:DataType="models:GoodListDTO">
+                    <Border Stroke="Magenta" 
+                            Padding="10" 
+                            Margin="0,5">
+
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WarehouseDetailsViewModel}}, Path=LoadGoodCommand}"
+                                CommandParameter="{Binding Id}" />
+                        </Border.GestureRecognizers>
+
                         <VerticalStackLayout>
-                            <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" />
-                            <Label Text="{Binding Category, Converter={StaticResource EnumToDisplayName}}" 
-                                   TextColor="Gray" />
+                            <Label Text="{Binding Title}" 
+                                   FontSize="18" 
+                                   FontAttributes="Bold" />
+
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="{Binding Price, StringFormat='{0} грн'}" 
+                                       TextColor="#2196F3" 
+                                       FontAttributes="Bold"/>
+                                <Label Text="{Binding ItemCategory}" 
+                                       TextColor="Gray" />
+                            </HorizontalStackLayout>
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>

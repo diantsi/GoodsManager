@@ -12,8 +12,9 @@ namespace GoodsManager.DTOModels.Goods
         public decimal Price { get; }
         public Category ItemCategory { get; }
         public string Description { get; }
+        public decimal TotalValue { get; }
 
-        public GoodDetailsDTO(Guid id, Guid warehouseId, string title, int quantity, decimal price, Category itemCategory, string description)
+        public GoodDetailsDTO(Guid id, Guid warehouseId, string title, int quantity, decimal price, Category itemCategory, string description, decimal totalValue)
         {
             Id = id;
             WarehouseId = warehouseId;
@@ -22,6 +23,7 @@ namespace GoodsManager.DTOModels.Goods
             Price = price;
             ItemCategory = itemCategory;
             Description = description;
+            TotalValue = totalValue;
         }
     }
 }

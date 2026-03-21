@@ -1,6 +1,5 @@
 using GoodsManager.Common;
 using GoodsManager.Common.Enums;
-using GoodsManager.UIModels;
 
 namespace GoodsManager.Pages;
 
@@ -19,16 +18,17 @@ public partial class GoodCreatePage : ContentPage
         //Ensures essential fields are not empty before proceeding
         if (string.IsNullOrWhiteSpace(eTitle.Text))
         {
-            await DisplayAlert("Помилка!", "Назва товару не може бути порожньою", "OK");
+            await DisplayAlert("РЈРІР°РіР°!", "РќР°Р·РІР° С‚РѕРІР°СЂСѓ РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё РїРѕСЂРѕР¶РЅСЊРѕСЋ", "OK");
             return;
         }
 
         if (pCategory.SelectedItem == null)
         {
-            await DisplayAlert("Помилка!", "Категорія має бути обрана", "OK");
+            await DisplayAlert("РЈРІР°РіР°!", "РљР°С‚РµРіРѕСЂС–СЋ РЅРµ Р±СѓР»Рѕ РІРёР±СЂР°РЅРѕ", "OK");
             return;
         }
 
+        /* 
         var good = new GoodUIModel(Guid.Empty);
 
         good.Title = eTitle.Text;
@@ -41,8 +41,9 @@ public partial class GoodCreatePage : ContentPage
         good.Description = eDescription.Text ?? "";
 
         good.SaveChangesToDBModel();
+        */
 
-        await DisplayAlert("Товар створено!", $"Товар {good.Title} успішно додано.", "OK");
+        await DisplayAlert("РўРѕРІР°СЂ СЃС‚РІРѕСЂРµРЅРѕ!", $"РўРѕРІР°СЂ {eTitle.Text} СѓСЃРїС–С€РЅРѕ СЃС‚РІРѕСЂРµРЅРѕ.", "OK");
     }
 
     private async void BackClicked(object sender, EventArgs e)
