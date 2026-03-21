@@ -11,6 +11,7 @@ namespace GoodsManager.DBModel
 
     public class GoodDBModel
     {
+        // Id is generated only once and cannot be changed later
         public Guid Id { get; set; }
         public Guid WarehouseId { get; set; }
         public string Title { get; set; }
@@ -21,15 +22,10 @@ namespace GoodsManager.DBModel
 
         public GoodDBModel() { }
 
+        // Constructor for a new good 
         public GoodDBModel(Guid warehouseId, string title, int quantity, decimal price, Category category, string description = "")
+            : this(Guid.NewGuid(), warehouseId, title, quantity, price, category, description)
         {
-            Id = Guid.NewGuid();
-            WarehouseId = warehouseId;
-            Title = title;
-            Quantity = quantity;
-            Price = price;
-            ItemCategory = category;
-            Description = description;
         }
 
         public GoodDBModel(Guid id, Guid warehouseId, string title, int quantity, decimal price, Category category, string description = "")
