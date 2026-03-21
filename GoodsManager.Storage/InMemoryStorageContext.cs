@@ -9,7 +9,7 @@ namespace GoodsManager.Storage
     /// <summary>
     /// In-memory implementation of the storage context using hardcoded mock data.
     /// </summary>
-    internal class InMemoryStorageContext : IStorageContext
+    public class InMemoryStorageContext : IStorageContext
     {
  
         private record WarehouseRecord(Guid Id, string Name, City Location);
@@ -75,5 +75,23 @@ namespace GoodsManager.Storage
             }
             return result;
         }
+
+
+        public WarehouseDBModel GetWarehouse(Guid warehouseId)
+        {
+            var warehouse = _warehouses.FirstOrDefault(w => w.Id == warehouseId);
+            if (warehouse == null) return null;
+
+            return new WarehouseDBModel(warehouse.Id, warehouse.Name, warehouse.Location);
+        }
+
+        public GoodDBModel GetGood(Guid goodId)
+        {
+            var good = _goods.FirstOrDefault(g => g.Id == goodId);
+            if (good == null) return null;
+
+            return new GoodDBModel(good.Id, good.WarehouseId, good.Title, good.Quantity, good.Price, good.ItemCategory, good.Description);
+        }
     }
+
 }

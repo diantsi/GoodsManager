@@ -55,6 +55,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -62,6 +63,8 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\GoodsManager.Common\GoodsManager.Common.csproj" />
+	  <ProjectReference Include="..\GoodsManager.Repositories\GoodsManager.Repositories.csproj" />
+	  <ProjectReference Include="..\GoodsManager.Services\GoodsManager.Services.csproj" />
 	  <ProjectReference Include="..\GoodsManager.UIModels\GoodsManager.UIModels.csproj" />
 	</ItemGroup>
 

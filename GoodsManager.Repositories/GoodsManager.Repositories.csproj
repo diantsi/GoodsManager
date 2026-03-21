@@ -4,14 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>GoodsManager.Services</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GoodsManager.Common\GoodsManager.Common.csproj" />
     <ProjectReference Include="..\GoodsManager.DBModels\GoodsManager.DBModels.csproj" />
     <ProjectReference Include="..\GoodsManager.DTO\GoodsManager.DTOModels.csproj" />
-    <ProjectReference Include="..\GoodsManager.Repositories\GoodsManager.Repositories.csproj" />
+    <ProjectReference Include="..\GoodsManager.Storage\GoodsManager.Storage.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodsManager", "GoodsManage
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.Storage", "GoodsManager.Storage\GoodsManager.Storage.csproj", "{F1005909-FD71-40F5-82E9-175F5D306C00}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.DTOModels", "GoodsManager.DTO\GoodsManager.DTOModels.csproj", "{94B9C154-3C1E-4748-9631-1F4DBE53B58D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodsManager.Repositories", "GoodsManager.Repositories\GoodsManager.Repositories.csproj", "{FDDC5178-4679-40A0-A861-7F62182B17FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +57,14 @@ Global
 		{F1005909-FD71-40F5-82E9-175F5D306C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1005909-FD71-40F5-82E9-175F5D306C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1005909-FD71-40F5-82E9-175F5D306C00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94B9C154-3C1E-4748-9631-1F4DBE53B58D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B9C154-3C1E-4748-9631-1F4DBE53B58D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B9C154-3C1E-4748-9631-1F4DBE53B58D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B9C154-3C1E-4748-9631-1F4DBE53B58D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDC5178-4679-40A0-A861-7F62182B17FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDC5178-4679-40A0-A861-7F62182B17FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDC5178-4679-40A0-A861-7F62182B17FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDC5178-4679-40A0-A861-7F62182B17FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
