@@ -5,14 +5,11 @@ namespace GoodsManager.DBModel
 
     public class WarehouseDBModel
     {
-
-        public Guid Id { get; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public City Location { get; set; }
 
-
         public WarehouseDBModel() { }
-
 
         public WarehouseDBModel(string name, City city)
         {
@@ -21,7 +18,12 @@ namespace GoodsManager.DBModel
             Location = city;
         }
 
-
+        public WarehouseDBModel(Guid id, string name, City city)
+        {
+            Id = id;
+            Name = name;
+            Location = city;
+        }
     }
 
   
