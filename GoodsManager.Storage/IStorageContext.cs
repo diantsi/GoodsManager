@@ -1,4 +1,4 @@
-using GoodsManager.DBModel;
+using GoodsManager.DBModels;
 using System;
 using System.Collections.Generic;
 

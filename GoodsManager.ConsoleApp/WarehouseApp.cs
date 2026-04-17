@@ -1,4 +1,4 @@
-﻿using GoodsManager.DTOModels.Goods;
+using GoodsManager.DTOModels.Goods;
 using GoodsManager.DTOModels.Warehouses;
 using GoodsManager.Repositories;
 using GoodsManager.Services;
@@ -112,7 +112,7 @@ namespace Warehouse.ConsoleApp
         {
             if (_warehouses == null)
             {
-                _warehouses = _warehouseService.GetWarehouses().ToList();
+                _warehouses = _warehouseService.GetAllWarehouses().ToList();
             }
         }
 
@@ -122,7 +122,7 @@ namespace Warehouse.ConsoleApp
 
             if (listDto != null)
             {
-                _currentWarehouse = _warehouseService.GetWarehouseDetails(listDto.Id);
+                _currentWarehouse = _warehouseService.GetWarehouse(listDto.Id);
                 _currentWarehouseGoods = _goodService.GetGoodsByWarehouse(_currentWarehouse.Id).ToList();
                 _currentWarehouseTotalValue = listDto.TotalValue;
 
@@ -157,7 +157,7 @@ namespace Warehouse.ConsoleApp
 
             if (goodListDto != null)
             {
-                var detailsDto = _goodService.GetGoodDetails(goodListDto.Id);
+                var detailsDto = _goodService.GetGood(goodListDto.Id);
                 decimal totalCost = detailsDto.Price * detailsDto.Quantity;
 
                 Console.WriteLine("\n--- Деталі товару ---");

@@ -1,5 +1,5 @@
 using GoodsManager.Common.Enums;
-using GoodsManager.DBModel;
+using GoodsManager.DBModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
