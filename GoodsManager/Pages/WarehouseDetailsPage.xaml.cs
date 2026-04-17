@@ -13,10 +13,10 @@ namespace GoodsManager.Pages
             BindingContext = _viewModel = vm;
         }
 
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
-            await _viewModel.RefreshDataAsync();
+            _viewModel.RefreshDataCommand.Execute(null);
         }
     }
 }

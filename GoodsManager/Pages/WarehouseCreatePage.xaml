@@ -40,14 +40,21 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <BoxView IsVisible="{Binding IsBusy}"
-                 BackgroundColor="Gray"
-                 Opacity="0.3"
-                 InputTransparent="False" />
-        <ActivityIndicator IsRunning="{Binding IsBusy}"
-                           IsVisible="{Binding IsBusy}"
-                           VerticalOptions="Center"
-                           HorizontalOptions="Center"
-                           Color="#2196F3" />
+        <!-- Loading Overlay -->
+        <Grid BackgroundColor="#80000000"
+              IsVisible="{Binding IsBusy}">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="15">
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   Color="Magenta"
+                                   HeightRequest="50"
+                                   WidthRequest="50" />
+                <Label Text="Завантаження..."
+                       TextColor="White"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+            </VerticalStackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

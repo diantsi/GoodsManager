@@ -13,9 +13,9 @@ public partial class WarehousesPage : ContentPage
         BindingContext = _viewModel = vm;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.RefreshDataAsync();
+        _viewModel.RefreshDataCommand.Execute(null);
     }
 }

@@ -85,6 +85,11 @@ namespace GoodsManager.Storage
         public Task DeleteWarehouseAsync(Guid warehouseId)
         {
             _warehouses.TryRemove(warehouseId, out _);
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteGoodsByWarehouseAsync(Guid warehouseId)
+        {
             var goodsToDelete = _goods.Values.Where(g => g.WarehouseId == warehouseId).ToList();
             foreach (var good in goodsToDelete)
             {

@@ -38,5 +38,13 @@ namespace GoodsManager.Repositories
         {
             return _storageContext.DeleteGoodAsync(goodId);
         }
+
+        /// <summary>
+        /// Delegates bulk deletion of goods to the storage context.
+        /// </summary>
+        public Task DeleteGoodsByWarehouseAsync(Guid warehouseId)
+        {
+            return _storageContext.DeleteGoodsByWarehouseAsync(warehouseId);
+        }
     }
 }

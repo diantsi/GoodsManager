@@ -19,5 +19,10 @@ namespace GoodsManager.Storage
         Task<GoodDBModel?> GetGoodAsync(Guid goodId);
         Task SaveGoodAsync(GoodDBModel good);
         Task DeleteGoodAsync(Guid goodId);
+
+        /// <summary>
+        /// Removes all products associated with a specific warehouse to maintain referential integrity.
+        /// </summary>
+        Task DeleteGoodsByWarehouseAsync(Guid warehouseId);
     }
 }

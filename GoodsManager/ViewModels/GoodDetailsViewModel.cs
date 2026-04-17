@@ -10,6 +10,7 @@ namespace GoodsManager.ViewModels
 {
     /// <summary>
     /// ViewModel for displaying detailed information about a single product (Good).
+    /// Handles good management (Edit/Delete).
     /// </summary>
     public partial class GoodDetailsViewModel : BaseViewModel, IQueryAttributable
     {
@@ -36,7 +37,7 @@ namespace GoodsManager.ViewModels
         /// Loads product details asynchronously.
         /// </summary>
         [RelayCommand]
-        public async Task RefreshDataAsync()
+        public async Task RefreshData()
         {
             IsBusy = true;
             try
@@ -55,6 +56,44 @@ namespace GoodsManager.ViewModels
             {
                 if (Shell.Current != null)
                     await Shell.Current.DisplayAlert("Error", $"Failed to load product details: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        /// <summary>
+        /// Navigates to the page for editing the current good.
+        /// </summary>
+        [RelayCommand]
+        private async Task EditGood()
+        {
+            await Shell.Current.GoToAsync("GoodCreatePage", new Dictionary<string, object> {
+                { "GoodId", _goodId }
+            });
+        }
+
+        /// <summary>
+        /// Deletes the current good after user confirmation.
+        /// </summary>
+        [RelayCommand]
+        private async Task DeleteGood()
+        {
+            if (CurrentGood == null) return;
+
+            bool confirm = await Shell.Current.DisplayAlert("Підтвердження", $"Ви впевнені, що хочете видалити товар '{CurrentGood.Title}'?", "Так", "Ні");
+            if (!confirm) return;
+
+            IsBusy = true;
+            try
+            {
+                await _goodService.DeleteGoodAsync(_goodId);
+                await Shell.Current.GoToAsync("..");
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Error", $"Failed to delete product: {ex.Message}", "OK");
             }
             finally
             {

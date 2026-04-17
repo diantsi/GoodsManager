@@ -163,7 +163,11 @@ namespace GoodsManager.Storage
             {
                 File.Delete(filePath);
             }
+        }
 
+        public async Task DeleteGoodsByWarehouseAsync(Guid warehouseId)
+        {
+            await Init();
             var dirPath = GetWarehouseDirectoryPath(warehouseId);
             if (Directory.Exists(dirPath))
             {

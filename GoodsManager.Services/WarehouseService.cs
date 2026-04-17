@@ -56,8 +56,13 @@ namespace GoodsManager.Services
             await _warehouseRepository.SaveWarehouseAsync(model);
         }
 
+        /// <summary>
+        /// Permanently removes a warehouse and all its associated goods.
+        /// </summary>
         public async Task DeleteWarehouseAsync(Guid warehouseId)
         {
+            // Explicitly delete all associated goods first to ensure referential integrity
+            await _goodRepository.DeleteGoodsByWarehouseAsync(warehouseId);
             await _warehouseRepository.DeleteWarehouseAsync(warehouseId);
         }
     }

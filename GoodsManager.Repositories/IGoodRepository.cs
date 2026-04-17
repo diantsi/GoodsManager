@@ -12,5 +12,10 @@ namespace GoodsManager.Repositories
         Task<GoodDBModel?> GetGoodAsync(Guid goodId);
         Task SaveGoodAsync(GoodDBModel good);
         Task DeleteGoodAsync(Guid goodId);
+
+        /// <summary>
+        /// Orchestrates the removal of all goods belonging to a specific warehouse.
+        /// </summary>
+        Task DeleteGoodsByWarehouseAsync(Guid warehouseId);
     }
 }

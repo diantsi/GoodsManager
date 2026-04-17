@@ -3,11 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:models="clr-namespace:GoodsManager.DTOModels.Goods;assembly=GoodsManager.DTOModels"
              xmlns:vm="clr-namespace:GoodsManager.ViewModels"
+             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="GoodsManager.Pages.WarehouseDetailsPage"
              x:DataType="vm:WarehouseDetailsViewModel"
              Title="Деталі Складу">
 
-    <Grid RowDefinitions="Auto, Auto, *">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Додати товар" 
+                     Command="{Binding AddGoodCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, *">
 
         <Border Grid.Row="0"
                 Padding="15"
@@ -31,45 +37,91 @@
             </VerticalStackLayout>
         </Border>
 
-        <Label Grid.Row="1" 
-               Text="Товари на складі:" 
-               FontSize="20" 
-               FontAttributes="Bold" 
-               Margin="10" 
-               TextColor="Magenta" />
+        <HorizontalStackLayout Grid.Row="1" Spacing="10" Padding="10" HorizontalOptions="Center">
+            <Button Text="Редагувати склад" 
+                    Command="{Binding EditWarehouseCommand}" 
+                    BackgroundColor="#2196F3" />
+            <Button Text="Видалити склад" 
+                    Command="{Binding DeleteWarehouseCommand}" 
+                    BackgroundColor="Red" />
+        </HorizontalStackLayout>
 
-        <CollectionView Grid.Row="2"
-                        ItemsSource="{Binding Goods}"
-                        Margin="10"
-                        SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:GoodListDTO">
-                    <Border Stroke="Magenta" 
-                            Padding="10" 
-                            Margin="0,5">
+        <SearchBar Grid.Row="2"
+                   Placeholder="Пошук товарів..."
+                   Text="{Binding SearchText}"
+                   SearchCommand="{Binding ApplyFilterAndSortCommand}">
+            <SearchBar.Behaviors>
+                <mct:EventToCommandBehavior EventName="TextChanged" 
+                                            Command="{Binding ApplyFilterAndSortCommand}" />
+            </SearchBar.Behaviors>
+        </SearchBar>
 
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WarehouseDetailsViewModel}}, Path=LoadGoodCommand}"
-                                CommandParameter="{Binding Id}" />
-                        </Border.GestureRecognizers>
+        <HorizontalStackLayout Grid.Row="3" Spacing="10" Padding="10">
+            <Label Text="Сортувати за:" VerticalOptions="Center" />
+            <Picker ItemsSource="{Binding SortOptions}"
+                    SelectedItem="{Binding SelectedSortOption}"
+                    WidthRequest="150">
+                <Picker.Behaviors>
+                    <mct:EventToCommandBehavior EventName="SelectedIndexChanged" 
+                                                Command="{Binding ApplyFilterAndSortCommand}" />
+                </Picker.Behaviors>
+            </Picker>
+        </HorizontalStackLayout>
 
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Title}" 
-                                   FontSize="18" 
-                                   FontAttributes="Bold" />
+        <RefreshView Grid.Row="4"
+                     Command="{Binding RefreshDataCommand}">
+            <CollectionView ItemsSource="{Binding Goods}"
+                            Margin="10"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:GoodListDTO">
+                        <Border Stroke="Magenta" 
+                                Padding="10" 
+                                Margin="0,5">
 
-                            <HorizontalStackLayout Spacing="10">
-                                <Label Text="{Binding Price, StringFormat='{0} грн'}" 
-                                       TextColor="#2196F3" 
-                                       FontAttributes="Bold"/>
-                                <Label Text="{Binding ItemCategory}" 
-                                       TextColor="Gray" />
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WarehouseDetailsViewModel}}, Path=LoadGoodCommand}"
+                                    CommandParameter="{Binding Id}" />
+                            </Border.GestureRecognizers>
+
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Title}" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold" />
+
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="{Binding Price, StringFormat='{0} грн'}" 
+                                           TextColor="#2196F3" 
+                                           FontAttributes="Bold"/>
+                                    <Label Text="{Binding ItemCategory}" 
+                                           TextColor="Gray" />
+                                    <Label Text="{Binding Quantity, StringFormat='К-сть: {0}'}" 
+                                           TextColor="Gray" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Loading Overlay -->
+        <Grid Grid.RowSpan="5"
+              BackgroundColor="#80000000"
+              IsVisible="{Binding IsBusy}">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 Spacing="15">
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   Color="Magenta"
+                                   HeightRequest="50"
+                                   WidthRequest="50" />
+                <Label Text="Завантаження..."
+                       TextColor="White"
+                       FontSize="18"
+                       FontAttributes="Bold" />
+            </VerticalStackLayout>
+        </Grid>
     </Grid>
 </ContentPage>
