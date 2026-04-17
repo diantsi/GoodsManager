@@ -9,6 +9,8 @@ namespace GoodsManager
             InitializeComponent();
             Routing.RegisterRoute(nameof(WarehouseDetailsPage), typeof(WarehouseDetailsPage));
             Routing.RegisterRoute(nameof(GoodDetailsPage), typeof(GoodDetailsPage));
+            Routing.RegisterRoute(nameof(WarehouseCreatePage), typeof(WarehouseCreatePage));
+            Routing.RegisterRoute(nameof(GoodCreatePage), typeof(GoodCreatePage));
         }
     }
 }

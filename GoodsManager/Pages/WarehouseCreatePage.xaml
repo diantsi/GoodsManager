@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:GoodsManager.ViewModels"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="GoodsManager.Pages.GoodCreatePage"
-             x:DataType="vm:GoodCreateViewModel"
+             x:Class="GoodsManager.Pages.WarehouseCreatePage"
+             x:DataType="vm:WarehouseCreateViewModel"
              Title="{Binding Title}">
 
     <ContentPage.Resources>
@@ -15,33 +15,16 @@
         <ScrollView>
             <VerticalStackLayout Padding="20" Spacing="15">
                 
-                <Label Text="Назва товару" FontAttributes="Bold" />
-                <Entry Text="{Binding GoodTitle}" Placeholder="Введіть назву..." />
-                <Label Text="{Binding Errors[GoodTitle]}" 
+                <Label Text="Назва складу" FontAttributes="Bold" />
+                <Entry Text="{Binding Name}" Placeholder="Введіть назву..." />
+                <Label Text="{Binding Errors[Name]}" 
                        TextColor="Red" 
                        FontSize="Small"
-                       IsVisible="{Binding Errors[GoodTitle], Converter={StaticResource IsStringNotNullOrWhiteSpaceConverter}}" />
+                       IsVisible="{Binding Errors[Name], Converter={StaticResource IsStringNotNullOrWhiteSpaceConverter}}" />
 
-                <Label Text="Категорія" FontAttributes="Bold" />
-                <Picker ItemsSource="{Binding Categories}"
-                        SelectedItem="{Binding SelectedCategory}" />
-
-                <Label Text="Кількість" FontAttributes="Bold" />
-                <Entry Text="{Binding QuantityText}" Keyboard="Numeric" />
-                <Label Text="{Binding Errors[QuantityText]}" 
-                       TextColor="Red" 
-                       FontSize="Small"
-                       IsVisible="{Binding Errors[QuantityText], Converter={StaticResource IsStringNotNullOrWhiteSpaceConverter}}" />
-
-                <Label Text="Ціна" FontAttributes="Bold" />
-                <Entry Text="{Binding PriceText}" Keyboard="Numeric" />
-                <Label Text="{Binding Errors[PriceText]}" 
-                       TextColor="Red" 
-                       FontSize="Small"
-                       IsVisible="{Binding Errors[PriceText], Converter={StaticResource IsStringNotNullOrWhiteSpaceConverter}}" />
-
-                <Label Text="Опис" FontAttributes="Bold" />
-                <Editor Text="{Binding Description}" Placeholder="Введіть опис..." HeightRequest="100" />
+                <Label Text="Місто" FontAttributes="Bold" />
+                <Picker ItemsSource="{Binding Cities}"
+                        SelectedItem="{Binding SelectedCity}" />
 
                 <Grid ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,20,0,0">
                     <Button Grid.Column="0" 

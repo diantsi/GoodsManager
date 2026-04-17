@@ -2,9 +2,9 @@ using GoodsManager.ViewModels;
 
 namespace GoodsManager.Pages
 {
-    public partial class GoodCreatePage : ContentPage
+    public partial class WarehouseCreatePage : ContentPage
     {
-        public GoodCreatePage(GoodCreateViewModel vm)
+        public WarehouseCreatePage(WarehouseCreateViewModel vm)
         {
             InitializeComponent();
             BindingContext = vm;
