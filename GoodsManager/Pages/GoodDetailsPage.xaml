@@ -9,23 +9,23 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
             <Label Text="Назва товару:" FontAttributes="Bold" TextColor="Gray" />
-            <Label Text="{Binding Title}" Margin="10,0,0,10" FontSize="22" FontAttributes="Bold" />
+            <Label Text="{Binding CurrentGood.Title}" Margin="10,0,0,10" FontSize="22" FontAttributes="Bold" />
 
             <Label Text="Категорія:" FontAttributes="Bold" TextColor="Gray" />
-            <Label Text="{Binding ItemCategory}" Margin="10,0,0,10" FontSize="16" />
+            <Label Text="{Binding CurrentGood.ItemCategory}" Margin="10,0,0,10" FontSize="16" />
 
             <Label Text="Опис:" FontAttributes="Bold" TextColor="Gray" />
-            <Label Text="{Binding Description}" Margin="10,0,0,10" FontSize="16" />
+            <Label Text="{Binding CurrentGood.Description}" Margin="10,0,0,10" FontSize="16" />
 
             
             <Label Text="Кількість:" FontAttributes="Bold" TextColor="Gray" />
-            <Label Text="{Binding Quantity}" Margin="10,0,0,10"  FontSize="16" />
+            <Label Text="{Binding CurrentGood.Quantity}" Margin="10,0,0,10"  FontSize="16" />
 
             <Label Text="Ціна за одиницю:" FontAttributes="Bold" TextColor="Gray" />
-            <Label Text="{Binding Price, StringFormat='{0} грн'}" Margin="10,0,0,10"  FontSize="18" />
+            <Label Text="{Binding CurrentGood.Price, StringFormat='{0} грн'}" Margin="10,0,0,10"  FontSize="18" />
 
             <Label Text="Загальна вартість товару:" TextColor="Gray" />
-            <Label Text="{Binding TotalCost, StringFormat='{0} грн'}" 
+            <Label Text="{Binding CurrentGood.TotalValue, StringFormat='{0} грн'}" 
                            Margin="10,0,0,10" 
                            FontSize="20" 
                            TextColor="#2196F3" 

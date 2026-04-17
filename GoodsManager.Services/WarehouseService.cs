@@ -1,12 +1,17 @@
-﻿using GoodsManager.DTOModels.Warehouses;
+using GoodsManager.DBModels;
+using GoodsManager.DTOModels.Warehouses;
 using GoodsManager.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodsManager.Services
 {
-    // Service for managing warehouse data
+    /// <summary>
+    /// Service for managing Warehouse-related business logic.
+    /// Maps between DB models and DTOs, ensuring the UI layer only works with DTOs.
+    /// </summary>
     public class WarehouseService : IWarehouseService
     {
         private readonly IWarehouseRepository _warehouseRepository;
@@ -18,33 +23,42 @@ namespace GoodsManager.Services
             _goodRepository = goodRepository;
         }
 
-        // Get all warehouses and calculate total value for each
-        public IEnumerable<WarehouseListDTO> GetAllWarehouses()
+        public async IAsyncEnumerable<WarehouseListDTO> GetAllWarehousesAsync()
         {
-            foreach (var warehouse in _warehouseRepository.GetWarehouses())
+            await foreach (var warehouse in _warehouseRepository.GetWarehousesAsync())
             {
-                // Find goods for this warehouse
-                var goods = _goodRepository.GetGoodsByWarehouse(warehouse.Id);
-                // Sum (Price * Quantity) for all goods
-                decimal totalValue = goods.Sum(g => g.Price * g.Quantity);
-
+                var goods = await _goodRepository.GetGoodsByWarehouseAsync(warehouse.Id);
+                var totalValue = goods.Sum(g => g.Price * g.Quantity);
                 yield return new WarehouseListDTO(warehouse.Id, warehouse.Name, warehouse.Location, totalValue);
             }
         }
 
-        // Get details for one warehouse by ID
-        public WarehouseDetailsDTO GetWarehouse(Guid warehouseId)
+        public async Task<WarehouseDetailsDTO?> GetWarehouseAsync(Guid warehouseId)
         {
-            var warehouse = _warehouseRepository.GetWarehouse(warehouseId);
+            var warehouse = await _warehouseRepository.GetWarehouseAsync(warehouseId);
+            if (warehouse == null) return null;
 
-            if (warehouse is null) return null;
+            var goods = await _goodRepository.GetGoodsByWarehouseAsync(warehouseId);
+            var totalValue = goods.Sum(g => g.Price * g.Quantity);
 
-            // Calculate total value of goods for this warehouse
-            var goods = _goodRepository.GetGoodsByWarehouse(warehouse.Id);
-            decimal totalValue = goods.Sum(g => g.Price * g.Quantity);
-
-            // Return DTO with all info
             return new WarehouseDetailsDTO(warehouse.Id, warehouse.Name, warehouse.Location, totalValue);
+        }
+
+        public async Task CreateWarehouseAsync(WarehouseCreateDTO warehouse)
+        {
+            var model = new WarehouseDBModel(Guid.NewGuid(), warehouse.Name, warehouse.Location);
+            await _warehouseRepository.SaveWarehouseAsync(model);
+        }
+
+        public async Task UpdateWarehouseAsync(WarehouseDetailsDTO warehouse)
+        {
+            var model = new WarehouseDBModel(warehouse.Id, warehouse.Name, warehouse.Location);
+            await _warehouseRepository.SaveWarehouseAsync(model);
+        }
+
+        public async Task DeleteWarehouseAsync(Guid warehouseId)
+        {
+            await _warehouseRepository.DeleteWarehouseAsync(warehouseId);
         }
     }
 }

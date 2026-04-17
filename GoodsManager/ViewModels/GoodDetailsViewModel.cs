@@ -1,48 +1,65 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using GoodsManager.Common.Enums;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GoodsManager.DTOModels.Goods;
 using GoodsManager.Services;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GoodsManager.ViewModels
 {
-    // ViewModel for showing detailed info about a single product
-    public partial class GoodDetailsViewModel : ObservableObject, IQueryAttributable
+    /// <summary>
+    /// ViewModel for displaying detailed information about a single product (Good).
+    /// </summary>
+    public partial class GoodDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly IGoodService _goodService;
+        private Guid _goodId;
 
-        private GoodDetailsDTO _currentGood;
-
-        // Exposing properties for data binding
-        public string Title => _currentGood?.Title;
-        public int? Quantity => _currentGood?.Quantity;
-        public decimal? Price => _currentGood?.Price;
-        public Category? ItemCategory => _currentGood?.ItemCategory;
-        public string Description => _currentGood?.Description;
-
-        // Total cost from DTO
-        public decimal TotalCost => _currentGood?.TotalValue ?? 0;
+        [ObservableProperty]
+        private GoodDetailsDTO? _currentGood;
 
         public GoodDetailsViewModel(IGoodService goodService)
         {
             _goodService = goodService;
         }
 
-        // Get product ID from navigation parameters
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            // Get ID and load the product from service
-            var goodId = (Guid)query["GoodId"];
-            _currentGood = _goodService.GetGood(goodId);
+            if (query.ContainsKey("GoodId"))
+            {
+                _goodId = (Guid)query["GoodId"];
+            }
+        }
 
-            // Notify UI that all properties have changed
-            OnPropertyChanged(nameof(Title));
-            OnPropertyChanged(nameof(Quantity));
-            OnPropertyChanged(nameof(Price));
-            OnPropertyChanged(nameof(ItemCategory));
-            OnPropertyChanged(nameof(Description));
-            OnPropertyChanged(nameof(TotalCost));
+        /// <summary>
+        /// Loads product details asynchronously.
+        /// </summary>
+        [RelayCommand]
+        public async Task RefreshDataAsync()
+        {
+            IsBusy = true;
+            try
+            {
+                CurrentGood = await _goodService.GetGoodAsync(_goodId);
+                if (CurrentGood == null)
+                {
+                    if (Shell.Current != null)
+                    {
+                        await Shell.Current.DisplayAlert("Error", "Product not found.", "OK");
+                        await Shell.Current.GoToAsync("..");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Shell.Current != null)
+                    await Shell.Current.DisplayAlert("Error", $"Failed to load product details: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

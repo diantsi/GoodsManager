@@ -1,54 +1,87 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GoodsManager.DTOModels.Warehouses;
 using GoodsManager.Pages;
 using GoodsManager.Services;
-using Microsoft.Maui.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace GoodsManager.ViewModels
 {
-    // ViewModel for the main list of warehouses
-    public partial class WarehousesViewModel : ObservableObject
+    /// <summary>
+    /// ViewModel for the main list of warehouses.
+    /// Manages loading and navigation to individual warehouse details.
+    /// </summary>
+    public partial class WarehousesViewModel : BaseViewModel
     {
         private readonly IWarehouseService _warehouseService;
 
-        // Collection of warehouses to show in the list
-        public ObservableCollection<WarehouseListDTO> Warehouses { get; set; }
+        [ObservableProperty]
+        private ObservableCollection<WarehouseListDTO> _warehouses = new();
 
-        private WarehouseListDTO _selectedWarehouse;
-
-        // Current selected warehouse in the list
-        public WarehouseListDTO SelectedWarehouse
-        {
-            get => _selectedWarehouse;
-            set => SetProperty(ref _selectedWarehouse, value);
-        }
-
-        // Command to handle clicking on a warehouse
-        public Command WarehouseSelectedCommand { get; }
+        [ObservableProperty]
+        private WarehouseListDTO? _selectedWarehouse;
 
         public WarehousesViewModel(IWarehouseService warehouseService)
         {
             _warehouseService = warehouseService;
-
-            // Load all warehouses from the service
-            Warehouses = new ObservableCollection<WarehouseListDTO>(_warehouseService.GetAllWarehouses());
-            WarehouseSelectedCommand = new Command(LoadWarehouse);
         }
 
-        private async void LoadWarehouse()
+        /// <summary>
+        /// Refreshes the list of warehouses from the service asynchronously.
+        /// </summary>
+        public async Task RefreshDataAsync()
+        {
+            if (IsBusy) return;
+
+            IsBusy = true;
+            try
+            {
+                Warehouses.Clear();
+                await foreach (var warehouse in _warehouseService.GetAllWarehousesAsync())
+                {
+                    Warehouses.Add(warehouse);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (Shell.Current != null)
+                    await Shell.Current.DisplayAlert("Error", $"Failed to load warehouses: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        /// <summary>
+        /// Handles navigation to the details of a selected warehouse.
+        /// </summary>
+        [RelayCommand]
+        private async Task LoadWarehouse()
         {
             if (SelectedWarehouse == null)
                 return;
 
-            // Go to the details page and pass the warehouse ID
-            await Shell.Current.GoToAsync($"{nameof(WarehouseDetailsPage)}", new Dictionary<string, object> {
-                { "WarehouseId", SelectedWarehouse.Id }
-            });
-
-            // Reset selection so we can click the same warehouse again
-            SelectedWarehouse = null;
+            IsBusy = true;
+            try
+            {
+                await Shell.Current.GoToAsync($"{nameof(WarehouseDetailsPage)}", new Dictionary<string, object> {
+                    { "WarehouseId", SelectedWarehouse.Id }
+                });
+            }
+            catch (Exception ex)
+            {
+                if (Shell.Current != null)
+                    await Shell.Current.DisplayAlert("Error", $"Navigation failed: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+                SelectedWarehouse = null;
+            }
         }
     }
 }

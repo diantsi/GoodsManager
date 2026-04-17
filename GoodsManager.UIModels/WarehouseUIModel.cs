@@ -1,5 +1,5 @@
 ﻿using GoodsManager.Common.Enums;
-using GoodsManager.DBModel;
+using GoodsManager.DBModels;
 using GoodsManager.Services;
 using static GoodsManager.UIModels.WarehouseUIModel;
 

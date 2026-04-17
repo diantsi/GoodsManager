@@ -1,10 +1,15 @@
-﻿using GoodsManager.DBModels;
+using GoodsManager.DBModels;
 using GoodsManager.Storage;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GoodsManager.Repositories
 {
+    /// <summary>
+    /// Repository responsible for data operations on Good entities.
+    /// Follows the repository pattern to decouple business logic from data access.
+    /// </summary>
     public class GoodRepository : IGoodRepository
     {
         private readonly IStorageContext _storageContext;
@@ -14,14 +19,24 @@ namespace GoodsManager.Repositories
             _storageContext = storageContext;
         }
 
-        public IEnumerable<GoodDBModel> GetGoodsByWarehouse(Guid warehouseId)
+        public Task<IEnumerable<GoodDBModel>> GetGoodsByWarehouseAsync(Guid warehouseId)
         {
-            return _storageContext.GetGoodsByWarehouse(warehouseId);
+            return _storageContext.GetGoodsByWarehouseAsync(warehouseId);
         }
 
-        public GoodDBModel GetGood(Guid goodId)
+        public Task<GoodDBModel?> GetGoodAsync(Guid goodId)
         {
-            return _storageContext.GetGood(goodId);
+            return _storageContext.GetGoodAsync(goodId);
+        }
+
+        public Task SaveGoodAsync(GoodDBModel good)
+        {
+            return _storageContext.SaveGoodAsync(good);
+        }
+
+        public Task DeleteGoodAsync(Guid goodId)
+        {
+            return _storageContext.DeleteGoodAsync(goodId);
         }
     }
 }

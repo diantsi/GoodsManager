@@ -1,4 +1,4 @@
-﻿using GoodsManager.Pages;
+using GoodsManager.Pages;
 
 namespace GoodsManager
 {
@@ -7,8 +7,8 @@ namespace GoodsManager
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute($"{nameof(WarehousesPage)}/{nameof(WarehouseDetailsPage)}", typeof(WarehouseDetailsPage));
-            Routing.RegisterRoute($"{nameof(WarehousesPage)}/{nameof(WarehouseDetailsPage)}/{nameof(GoodDetailsPage)}", typeof(GoodDetailsPage));
+            Routing.RegisterRoute(nameof(WarehouseDetailsPage), typeof(WarehouseDetailsPage));
+            Routing.RegisterRoute(nameof(GoodDetailsPage), typeof(GoodDetailsPage));
         }
     }
 }

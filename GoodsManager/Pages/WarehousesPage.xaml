@@ -11,7 +11,7 @@
                     Margin="10"
                     SelectionMode="Single"
                     SelectedItem="{Binding SelectedWarehouse, Mode=TwoWay}"
-                    SelectionChangedCommand="{Binding WarehouseSelectedCommand}">
+                    SelectionChangedCommand="{Binding LoadWarehouseCommand}">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:WarehouseListDTO">
                 <Border Stroke="Magenta"

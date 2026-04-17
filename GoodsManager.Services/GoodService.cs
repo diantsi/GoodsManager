@@ -1,11 +1,17 @@
-﻿using GoodsManager.DTOModels.Goods;
+using GoodsManager.DBModels;
+using GoodsManager.DTOModels.Goods;
 using GoodsManager.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodsManager.Services
 {
-    // Service for managing product (good) data
+    /// <summary>
+    /// Service for managing Good-related business logic.
+    /// Handles mapping and domain-specific rules.
+    /// </summary>
     public class GoodService : IGoodService
     {
         private readonly IGoodRepository _goodRepository;
@@ -15,31 +21,35 @@ namespace GoodsManager.Services
             _goodRepository = goodRepository;
         }
 
-        // Get list of products for a specific warehouse
-        public IEnumerable<GoodListDTO> GetGoodsByWarehouse(Guid warehouseId)
+        public async Task<IEnumerable<GoodListDTO>> GetGoodsByWarehouseAsync(Guid warehouseId)
         {
-            foreach (var good in _goodRepository.GetGoodsByWarehouse(warehouseId))
-            {
-                // Convert DB model to list DTO
-                yield return new GoodListDTO(good.Id, good.Title, good.Price, good.ItemCategory);
-            }
+            var goods = await _goodRepository.GetGoodsByWarehouseAsync(warehouseId);
+            return goods.Select(g => new GoodListDTO(g.Id, g.Title, g.Quantity, g.Price, g.ItemCategory, g.Price * g.Quantity));
         }
 
-        // Get full details for one product by ID
-        public GoodDetailsDTO GetGood(Guid goodId)
+        public async Task<GoodDetailsDTO?> GetGoodAsync(Guid goodId)
         {
-            var good = _goodRepository.GetGood(goodId);
+            var good = await _goodRepository.GetGoodAsync(goodId);
+            if (good == null) return null;
 
-            // Calculate total price and return DTO
-            return good is null ? null : new GoodDetailsDTO(
-                good.Id, 
-                good.WarehouseId, 
-                good.Title, 
-                good.Quantity, 
-                good.Price, 
-                good.ItemCategory, 
-                good.Description, 
-                good.Price * good.Quantity);
+            return new GoodDetailsDTO(good.Id, good.WarehouseId, good.Title, good.Quantity, good.Price, good.ItemCategory, good.Description, good.Price * good.Quantity);
+        }
+
+        public async Task CreateGoodAsync(GoodCreateDTO good)
+        {
+            var model = new GoodDBModel(Guid.NewGuid(), good.WarehouseId, good.Title, good.Quantity, good.Price, good.ItemCategory, good.Description);
+            await _goodRepository.SaveGoodAsync(model);
+        }
+
+        public async Task UpdateGoodAsync(GoodDetailsDTO good)
+        {
+            var model = new GoodDBModel(good.Id, good.WarehouseId, good.Title, good.Quantity, good.Price, good.ItemCategory, good.Description);
+            await _goodRepository.SaveGoodAsync(model);
+        }
+
+        public async Task DeleteGoodAsync(Guid goodId)
+        {
+            await _goodRepository.DeleteGoodAsync(goodId);
         }
     }
 }
