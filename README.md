@@ -7,8 +7,8 @@
 * **Warehouse Dashboard**: Displays a comprehensive list of registered warehouses, including their geographical locations and aggregated stock values.
 * **Detailed Inventory Management**: Enables exploration of specific warehouse contents with automated total price calculations for all stored items.
 * **Product Specifications**: Provides detailed data for each item, including title, category, quantity, unit price, and total batch value.
-* **Dynamic User Interface**: Implements real-time interface updates through the use of ObservableCollection and advanced data binding techniques.
-* **Localized Metadata Display**: Features automatic translation of technical Enums (Cities and Categories) into user-readable text using custom IValueConverters.
+* **Modern MVVM Implementation**: Features real-time interface updates powered by `CommunityToolkit.Mvvm`, utilizing Source Generators for boilerplate-free property and command management.
+* **Professional Data Mapping**: Implements **Data Transfer Objects (DTOs)** to decouple the presentation layer from the internal data structures, ensuring a clean and secure data flow.
 
 ## Architecture and Tech Stack
 
@@ -27,7 +27,9 @@ The project adheres to the **MVVM (Model-View-ViewModel)** architectural pattern
 
 * **Common**: Contains shared Enums.
 * **DBModels**: Represents the data persistence layer, containing classes that define the structure of the stored data.
-* **Services**: The data access layer, featuring the IStorageService interface and its implementations (e.g., FakeStorage) for data retrieval and persistence.
+* **Services**: The business logic layer. Defines DTOs and handles data processing, calculations, and mapping.
+* **Repositories**: Implements the Repository pattern to mediate between the storage and business logic.
+* **Storage**: The persistence layer, including `IStorageContext` and `InMemoryStorageContext` (fake database).
 * **UIModels**: Contains ViewModels that wrap raw database models (DbModels) to provide formatting, calculated properties, and data-binding logic for the UI.
 * **Pages**: Consists of XAML views and corresponding code-behind logic for navigation and user interaction.
 * **Tools**: Includes UI helper classes and converters, such as the EnumToDisplayNameConverter, to facilitate data transformation.
