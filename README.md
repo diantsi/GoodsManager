@@ -1,35 +1,44 @@
-# GoodsManager - Inventory Control System
+  GoodsManager - Inventory Control System
 
-**GoodsManager** is a cross-platform .NET MAUI application designed for managing warehouses inventory. The system provides a structured framework for tracking products, monitoring stock levels, and calculating total asset values within a distributed storage network.
+  GoodsManager is a cross-platform .NET MAUI application designed for managing warehouse inventory. The system provides
+  a multi-layered framework for tracking products, monitoring stock levels, and calculating total asset values across a
+  persistent storage network.
 
-## Key Features
+  Key Features
+   * Warehouse Dashboard: Displays a comprehensive list of registered warehouses, including geographical locations and
+     aggregated stock values.
+   * Detailed Inventory Management: Enables exploration of specific warehouse contents with automated total price
+     calculations.
+   * Product Specifications: Provides detailed data for each item, including category, quantity, unit price, and total
+     batch value.
+   * Responsive Asynchronous UX: Implements a global Busy State with visual overlays and activity indicators, ensuring
+     the UI remains responsive during data operations.
+   * Modern MVVM Implementation: Features real-time interface updates powered by CommunityToolkit.Mvvm, utilizing Source
+     Generators for boilerplate-free property and command management.
+   * Professional Data Mapping: Implements Data Transfer Objects (DTOs) to decouple the presentation layer from the
+     internal data structures, ensuring a clean and secure data flow.
 
-* **Warehouse Dashboard**: Displays a comprehensive list of registered warehouses, including their geographical locations and aggregated stock values.
-* **Detailed Inventory Management**: Enables exploration of specific warehouse contents with automated total price calculations for all stored items.
-* **Product Specifications**: Provides detailed data for each item, including title, category, quantity, unit price, and total batch value.
-* **Modern MVVM Implementation**: Features real-time interface updates powered by `CommunityToolkit.Mvvm`, utilizing Source Generators for boilerplate-free property and command management.
-* **Professional Data Mapping**: Implements **Data Transfer Objects (DTOs)** to decouple the presentation layer from the internal data structures, ensuring a clean and secure data flow.
+  Architecture and Tech Stack
+  The project adheres to a strict 3-Layer Architecture (Presentation, Service, Data) to ensure maintainability and
+  testability.
 
-## Architecture and Tech Stack
+  Core Technologies
+   * .NET 8.0 and MAUI: The primary framework for building cross-platform applications.
+   * SQLite Persistence: Utilizes sqlite-net-pcl for local relational data storage, providing reliable data persistence
+     between sessions.
+   * Dependency Injection (DI): Services, Repositories, and ViewModels are managed via the .NET ServiceProvider,
+     promoting loose coupling.
+   * Shell Navigation: Uses hierarchical navigation with QueryProperty and automated data refreshing upon navigation.
+   * Asynchronous Programming: Implements a full async/await lifecycle from the storage context up to the UI.
 
-The project adheres to the **MVVM (Model-View-ViewModel)** architectural pattern to ensure strict separation between business logic and the presentation layer.
-
-
-
-### Core Technologies
-* **.NET 8.0 and MAUI**: The primary framework for building cross-platform mobile and desktop applications.
-* **Dependency Injection (DI)**: Services and Pages are registered and managed via the built-in .NET ServiceProvider, promoting decoupled logic and testability.
-* **Shell Navigation**: Uses a hierarchical navigation structure with QueryProperty for passing complex objects between views.
-* **Reflection and Metadata**: Utilizes custom EnumExtensions and Reflection to extract display names from C# attributes for UI presentation.
-
-
-## Project Structure
-
-* **Common**: Contains shared Enums.
-* **DBModels**: Represents the data persistence layer, containing classes that define the structure of the stored data.
-* **Services**: The business logic layer. Defines DTOs and handles data processing, calculations, and mapping.
-* **Repositories**: Implements the Repository pattern to mediate between the storage and business logic.
-* **Storage**: The persistence layer, including `IStorageContext` and `InMemoryStorageContext` (fake database).
-* **UIModels**: Contains ViewModels that wrap raw database models (DbModels) to provide formatting, calculated properties, and data-binding logic for the UI.
-* **Pages**: Consists of XAML views and corresponding code-behind logic for navigation and user interaction.
-* **Tools**: Includes UI helper classes and converters, such as the EnumToDisplayNameConverter, to facilitate data transformation.
+  Project Structure
+   * GoodsManager: The main MAUI project containing Views, ViewModels, and UI Tools.
+   * Common: Shared Enums and global constants.
+   * DBModels: The data persistence layer models, decorated with SQLite attributes for relational mapping.
+   * DTOModels: Data Transfer Objects used for safe communication between layers.
+   * Services: The business logic layer. Handles mapping, calculations, and coordinates complex operations (like cascade
+     deletes).
+   * Repositories: Mediates between the storage context and business services using the Repository pattern.
+   * Storage: Contains the persistent SqliteStorageContext and an optimized FileStorageContext with parallel data
+     seeding.
+   * Tools: UI helper classes, including EnumToDisplayNameConverter and visual layout components.
