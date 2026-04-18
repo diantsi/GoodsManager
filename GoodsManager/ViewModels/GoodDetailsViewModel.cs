@@ -30,6 +30,7 @@ namespace GoodsManager.ViewModels
             if (query.ContainsKey("GoodId"))
             {
                 _goodId = (Guid)query["GoodId"];
+                MainThread.BeginInvokeOnMainThread(async () => await RefreshDataCommand.ExecuteAsync(null));
             }
         }
 

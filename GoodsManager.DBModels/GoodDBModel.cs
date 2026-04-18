@@ -1,15 +1,19 @@
 using GoodsManager.Common.Enums;
 using System;
+using SQLite;
 
 namespace GoodsManager.DBModels
 {
+    [Table("Goods")]
     public class GoodDBModel
     {
         private int _quantity;
         private decimal _price;
 
-        // Id is generated only once and cannot be changed later
-        public Guid Id { get; init; }
+        [PrimaryKey]
+        public Guid Id { get; set; }
+        
+        [Indexed]
         public Guid WarehouseId { get; set; }
         public string Title { get; set; }
 

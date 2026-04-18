@@ -48,6 +48,8 @@ namespace GoodsManager.ViewModels
             if (query.ContainsKey("WarehouseId"))
             {
                 _warehouseId = (Guid)query["WarehouseId"];
+                // calling the command asynchronously ensures the UI refreshes.
+                MainThread.BeginInvokeOnMainThread(async () => await RefreshDataCommand.ExecuteAsync(null));
             }
         }
 

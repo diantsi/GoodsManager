@@ -10,7 +10,7 @@ namespace GoodsManager.Storage
 {
     /// <summary>
     /// In-memory implementation of the storage context using original mock data.
-    /// Provides asynchronous operations to match the IStorageContext contract for Lab 4.
+    /// Provides asynchronous operations
     /// </summary>
     public class InMemoryStorageContext : IStorageContext
     {
@@ -24,7 +24,6 @@ namespace GoodsManager.Storage
 
         private void InitializeData()
         {
-            // Your original warehouses
             var centralWarehouse = new WarehouseDBModel(Guid.NewGuid(), "Центральний", City.Kyiv);
             var leftBankWarehouse = new WarehouseDBModel(Guid.NewGuid(), "Лівобережний", City.Kyiv);       
             var westernWarehouse = new WarehouseDBModel(Guid.NewGuid(), "Западенський", City.Lviv);        
@@ -37,7 +36,6 @@ namespace GoodsManager.Storage
             _warehouses.TryAdd(volynskyWarehouse.Id, volynskyWarehouse);
             _warehouses.TryAdd(reserveWarehouse.Id, reserveWarehouse);
 
-            // Your original goods
             var goods = new List<GoodDBModel>
             {
                 new GoodDBModel(centralWarehouse.Id, "Ноутбук Apple MacBook Pro", 15, 75000, Category.Electronics, "16-inch, M3 Max"),

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Warehouse.ConsoleApp
 {
@@ -16,7 +17,7 @@ namespace Warehouse.ConsoleApp
 
         private static AppState _currentState = AppState.Default;
 
-        private static readonly IStorageContext _storageContext = new InMemoryStorageContext();
+        private static readonly IStorageContext _storageContext = new SqliteStorageContext();
         private static readonly IWarehouseRepository _warehouseRepo = new WarehouseRepository(_storageContext);
         private static readonly IGoodRepository _goodRepo = new GoodRepository(_storageContext);
 
@@ -24,11 +25,11 @@ namespace Warehouse.ConsoleApp
         private static readonly IGoodService _goodService = new GoodService(_goodRepo);
 
         private static List<WarehouseListDTO> _warehouses;
-        private static WarehouseDetailsDTO _currentWarehouse;
+        private static WarehouseDetailsDTO? _currentWarehouse;
         private static List<GoodListDTO> _currentWarehouseGoods;
         private static decimal _currentWarehouseTotalValue;
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
@@ -41,17 +42,20 @@ namespace Warehouse.ConsoleApp
                 switch (_currentState)
                 {
                     case AppState.Default:
-                        ShowAllWarehouses();
+                        await ShowAllWarehouses();
                         Console.WriteLine("\n--> Введіть назву складу, щоб відкрити його:");
                         break;
 
                     case AppState.WarehouseDetails:
-                        ShowWarehouseDetails(currentCommand);
-                        Console.WriteLine("\n--> Введіть назву товару для повної інфи або 'назад', щоб повернутись:");
+                        await ShowWarehouseDetails(currentCommand);
+                        if (_currentState == AppState.WarehouseDetails)
+                        {
+                            Console.WriteLine("\n--> Введіть назву товару для повної інфи або 'назад', щоб повернутись:");
+                        }
                         break;
 
                     case AppState.GoodDetails:
-                        ShowGoodDetails(currentCommand);
+                        await ShowGoodDetails(currentCommand);
                         Console.WriteLine("\n--> Введіть назву товару для повної інфи або 'назад', щоб повернутись:");
                         break;
 
@@ -72,35 +76,34 @@ namespace Warehouse.ConsoleApp
 
         private static void UpdateAppState(string? cmd)
         {
-            switch (cmd?.ToLower().Trim())
+            string? command = cmd?.ToLower().Trim();
+            if (command == "кінець")
             {
-                case "кінець":
-                    _currentState = AppState.Exit;
-                    Console.WriteLine("Дякую, що звільнили мене! Іду пити каву");
-                    break;
-
-                case "назад":
-                    _currentState = AppState.Default;
-                    break;
-
-                default:
-                    if (_currentState == AppState.Default)
-                    {
-                        _currentState = AppState.WarehouseDetails;
-                    }
-                    else if (_currentState == AppState.WarehouseDetails)
-                    {
-                        _currentState = AppState.GoodDetails;
-                    }
-                    break;
+                _currentState = AppState.Exit;
+                Console.WriteLine("Дякую, що звільнили мене! Іду пити каву");
+            }
+            else if (command == "назад")
+            {
+                _currentState = AppState.Default;
+            }
+            else if (!string.IsNullOrWhiteSpace(command))
+            {
+                if (_currentState == AppState.Default)
+                {
+                    _currentState = AppState.WarehouseDetails;
+                }
+                else if (_currentState == AppState.WarehouseDetails)
+                {
+                    _currentState = AppState.GoodDetails;
+                }
             }
         }
 
-        private static void ShowAllWarehouses()
+        private static async Task ShowAllWarehouses()
         {
             Console.Clear();
             Console.WriteLine("--- Ось усі доступні склади: ---");
-            LoadWarehouses();
+            await LoadWarehouses();
 
             foreach (var w in _warehouses)
             {
@@ -108,39 +111,44 @@ namespace Warehouse.ConsoleApp
             }
         }
 
-        private static void LoadWarehouses()
+        private static async Task LoadWarehouses()
         {
-            if (_warehouses == null)
+            _warehouses = new List<WarehouseListDTO>();
+            await foreach (var warehouse in _warehouseService.GetAllWarehousesAsync())
             {
-                _warehouses = _warehouseService.GetAllWarehouses().ToList();
+                _warehouses.Add(warehouse);
             }
         }
 
-        private static void ShowWarehouseDetails(string? warehouseName)
+        private static async Task ShowWarehouseDetails(string? warehouseName)
         {
             var listDto = _warehouses?.FirstOrDefault(w => string.Equals(w.Name, warehouseName?.Trim(), StringComparison.OrdinalIgnoreCase));
 
             if (listDto != null)
             {
-                _currentWarehouse = _warehouseService.GetWarehouse(listDto.Id);
-                _currentWarehouseGoods = _goodService.GetGoodsByWarehouse(_currentWarehouse.Id).ToList();
-                _currentWarehouseTotalValue = listDto.TotalValue;
-
-                Console.Clear();
-                Console.WriteLine($"--- Товари на складі '{_currentWarehouse.Name}': ---");
-
-                if (_currentWarehouseGoods.Count == 0)
+                _currentWarehouse = await _warehouseService.GetWarehouseAsync(listDto.Id);
+                if (_currentWarehouse != null)
                 {
-                    Console.WriteLine("--- На цьому складі порожньо ---");
-                }
-                else
-                {
-                    foreach (var good in _currentWarehouseGoods)
+                    var goods = await _goodService.GetGoodsByWarehouseAsync(_currentWarehouse.Id);
+                    _currentWarehouseGoods = goods.ToList();
+                    _currentWarehouseTotalValue = listDto.TotalValue;
+
+                    Console.Clear();
+                    Console.WriteLine($"--- Товари на складі '{_currentWarehouse.Name}': ---");
+
+                    if (_currentWarehouseGoods.Count == 0)
                     {
-                        Console.WriteLine($"- {good.Title} (Категорія: {good.ItemCategory}, Ціна: {good.Price} грн)");
+                        Console.WriteLine("--- На цьому складі порожньо ---");
                     }
+                    else
+                    {
+                        foreach (var good in _currentWarehouseGoods)
+                        {
+                            Console.WriteLine($"- {good.Title} (Категорія: {good.ItemCategory}, Ціна: {good.Price} грн)");
+                        }
+                    }
+                    Console.WriteLine($"Загальна сума: {_currentWarehouseTotalValue} грн");
                 }
-                Console.WriteLine($"Загальна сума: {_currentWarehouseTotalValue} грн");
             }
             else
             {
@@ -149,7 +157,7 @@ namespace Warehouse.ConsoleApp
             }
         }
 
-        private static void ShowGoodDetails(string? productName)
+        private static async Task ShowGoodDetails(string? productName)
         {
             if (_currentWarehouse == null || _currentWarehouseGoods == null) return;
 
@@ -157,17 +165,20 @@ namespace Warehouse.ConsoleApp
 
             if (goodListDto != null)
             {
-                var detailsDto = _goodService.GetGood(goodListDto.Id);
-                decimal totalCost = detailsDto.Price * detailsDto.Quantity;
+                var detailsDto = await _goodService.GetGoodAsync(goodListDto.Id);
+                if (detailsDto != null)
+                {
+                    decimal totalCost = detailsDto.Price * detailsDto.Quantity;
 
-                Console.WriteLine("\n--- Деталі товару ---");
-                Console.WriteLine($"Назва: {detailsDto.Title}");
-                Console.WriteLine($"Категорія: {detailsDto.ItemCategory}");
-                Console.WriteLine($"Опис: {detailsDto.Description}");
-                Console.WriteLine($"Кількість: {detailsDto.Quantity} шт.");
-                Console.WriteLine($"Ціна за одиницю: {detailsDto.Price} грн");
-                Console.WriteLine($"Загальна вартість товару: {totalCost} грн");
-                Console.WriteLine("----------------------");
+                    Console.WriteLine("\n--- Деталі товару ---");
+                    Console.WriteLine($"Назва: {detailsDto.Title}");
+                    Console.WriteLine($"Категорія: {detailsDto.ItemCategory}");
+                    Console.WriteLine($"Опис: {detailsDto.Description}");
+                    Console.WriteLine($"Кількість: {detailsDto.Quantity} шт.");
+                    Console.WriteLine($"Ціна за одиницю: {detailsDto.Price} грн");
+                    Console.WriteLine($"Загальна вартість товару: {totalCost} грн");
+                    Console.WriteLine("----------------------");
+                }
             }
             else
             {

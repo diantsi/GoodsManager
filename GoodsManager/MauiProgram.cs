@@ -25,7 +25,7 @@ namespace GoodsManager
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<IStorageContext, FileStorageContext>();
+            builder.Services.AddSingleton<IStorageContext, SqliteStorageContext>();
 
             builder.Services.AddSingleton<IWarehouseRepository, WarehouseRepository>();
             builder.Services.AddSingleton<IGoodRepository, GoodRepository>();

@@ -66,13 +66,14 @@ namespace GoodsManager.Storage
         {
             // Use InMemoryStorageContext to get seed data
             var inMemoryStorage = new InMemoryStorageContext();
+            var tasks = new List<Task>();
 
             await foreach (var warehouse in inMemoryStorage.GetWarehousesAsync())
             {
                 // Save warehouse directly to file to avoid recursive Init() calls
                 var warehousePath = GetWarehouseFilePath(warehouse.Id);
                 var warehouseJson = JsonSerializer.Serialize(warehouse);
-                await File.WriteAllTextAsync(warehousePath, warehouseJson);
+                tasks.Add(File.WriteAllTextAsync(warehousePath, warehouseJson));
 
                 // Save associated goods
                 var goods = await inMemoryStorage.GetGoodsByWarehouseAsync(warehouse.Id);
@@ -80,9 +81,10 @@ namespace GoodsManager.Storage
                 {
                     var goodPath = GetGoodFilePath(good.WarehouseId, good.Id);
                     var goodJson = JsonSerializer.Serialize(good);
-                    await File.WriteAllTextAsync(goodPath, goodJson);
+                    tasks.Add(File.WriteAllTextAsync(goodPath, goodJson));
                 }
             }
+            await Task.WhenAll(tasks);
         }
 
         private string GetWarehouseFilePath(Guid warehouseId)
